@@ -10,14 +10,16 @@ const PORT = process.env.PORT || 22000
 
 app.use(express.json())
 
+//db connection
 const db = () => {
     mongoose.connect('mongodb://localhost/fileUpload')
     console.log('DB CONNECTED')
 }
 db()
 
-app.use('/api',multiFile)
-app.use('/api',singleFile)
+//router expose
+app.use('/api', multiFile)
+app.use('/api', singleFile)
 
 //port expose 
 app.listen(22000, async () => {

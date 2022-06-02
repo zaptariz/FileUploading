@@ -5,6 +5,7 @@ const multifile = require('../controller/multiFileUpload')
 
 const router = express.Router()
 
+//middileware for file upload
 const uploader = multer({Storage: upload.fileStorage, fileFilter:upload.fileFilter})
 
 

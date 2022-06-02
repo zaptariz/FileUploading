@@ -1,4 +1,4 @@
-const {model} = require('../models/multiFileModel')
+const { model } = require('../models/multiFileModel')
 const fileFormatHelper = require('../helpers/fileFormatHelper')
 
 
@@ -10,23 +10,23 @@ const fileFormatHelper = require('../helpers/fileFormatHelper')
 const multi_File_Upload = async (req, res) => {
     try {
         let bulkFile = []
-        req.files.forEach(files=> {
+        let count = 0
+        for(count ; count <req.files.length; count++){
+            let data = req.files[count]
             const payload = {
-                fileName: files.originalname,
-                fileType: files.mimetype,
-                fileSize: fileFormatHelper.fileformat(files.size, 2)
+                fileName: data.originalname,
+                fileType: data.mimetype,
+                fileSize: fileFormatHelper.fileformat(data.size, 2)
             }
             bulkFile.push(payload)
-        });
+        }
         const payload = new model({
-            title: "multiple files",
-            file: bulkFile
+            title:req.body.title,
+            files:bulkFile
         })
-        await new model(payload).save()
-        console.log('multiple file : ', payload)
-        return res.status(200).send(payload)
+        await payload.save()
+        return res.status(200).send(bulkFile)
     } catch (error) {
-        console.log(error.message)
         return res.status(401).status(error.message)
     }
 }
@@ -35,7 +35,6 @@ const multiple_File_View = async (req, res) => {
         const response = await model.find({})
         return res.status(200).json(response)
     } catch (error) {
-        console.log("error : ", error.message)
         return res.status(401).send(error.message)
     }
 

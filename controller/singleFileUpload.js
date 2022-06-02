@@ -27,8 +27,7 @@ const single_file_view = async (req, res) => {
         const response = await singleFile.find({})
         return res.status(200).json(response)
     } catch (error) {
-        console.log("error : ", error.message)
-        return res.status(401).send({"error  " : error.message})
+        return res.status(401).send({ "error  ": error.message })
     }
 
 }
